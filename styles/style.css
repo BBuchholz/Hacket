@@ -17,7 +17,7 @@ body {
   width: 100%;
 }
 
-.hacker-area h1 {
+.daemon-area h1 {
   padding: 12px 10px 0 10px;
   margin: 0;
   font-size: 16px;
@@ -33,7 +33,7 @@ h1 strong {
   font-style: normal;
 }
 
-.hacker-area,
+.daemon-area,
 .player-area {
   position: relative;
   display: flex;
@@ -46,7 +46,7 @@ h1 strong {
   box-sizing: border-box;
 }
 
-.hacker-area {
+.daemon-area {
   background-position: bottom;
   align-items: flex-end;
 }
@@ -303,12 +303,12 @@ button[disabled=true] {
   opacity: 1;
 }
 
-.hacker-card.showCard {
-  animation: hackerShowCard .5s ease-out;
+.daemon-card.showCard {
+  animation: daemonShowCard .5s ease-out;
 }
 
-/* When the hacker card appears */
-@keyframes hackerShowCard {
+/* When the daemon card appears */
+@keyframes daemonShowCard {
   0%   { transform: translateY(-25px); opacity: .5; }
   60%  { transform: translateY(5px); }
   100% { transform: translateY(0px); }
@@ -333,11 +333,11 @@ button[disabled=true] {
   background: #888;
 }
 
-.hacker-card.better-card {
+.daemon-card.better-card {
   transform: scale(1.03);
 }
 
-.hacker-card.worse-card {
+.daemon-card.worse-card {
   transform: scale(.90) translateY(-25px) rotate(3deg);
 }
 

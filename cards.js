@@ -1,10 +1,10 @@
 // You can add new scenarios, but make sure that there is exactly...
-// * 1 hackerCard per scenario
+// * 1 daemonCard per scenario
 // * 3 playerCards per scenario
 
 var scenarios = [
   {
-    hackerCard : {
+    daemonCard : {
       description : "I set up a fake Wi-Fi station to steal people’s email and track them online.",
       power : 4,
     },
@@ -24,7 +24,7 @@ var scenarios = [
     ]
   },
   {
-    hackerCard : {
+    daemonCard : {
       description : "I sent a fake email from your bank asking for your account details.",
       power : 3,
     },
@@ -44,7 +44,7 @@ var scenarios = [
     ]
   },
   {
-    hackerCard : {
+    daemonCard : {
       description : "I figured out where you live from all the personal information you share on social media.",
       power : 3,
     },
@@ -64,7 +64,7 @@ var scenarios = [
     ]
   },
   {
-    hackerCard : {
+    daemonCard : {
       description : "I watched you type your password and hacked your account.",
       power : 2,
     },
@@ -84,7 +84,7 @@ var scenarios = [
     ]
   },
   {
-    hackerCard : {
+    daemonCard : {
       description : "I looked at your browsing history on your phone to see what you do online.",
       power : 2,
     },
@@ -105,7 +105,7 @@ var scenarios = [
   }, 
 
   {
-    hackerCard : {
+    daemonCard : {
       description : "I hacked your system and all your data is deleted now.",
       power : 2,
     },
@@ -126,7 +126,7 @@ var scenarios = [
   }, 
 
   {
-    hackerCard : {
+    daemonCard : {
       description : "I provided you my USB for content transfer.",
       power : 2,
     },
@@ -146,7 +146,7 @@ var scenarios = [
     ]
   }, 
   {
-    hackerCard : {
+    daemonCard : {
       description : "I will crash your vulnerable system using ransomware attacks, malware and data breaches.",
       power : 2,
     },

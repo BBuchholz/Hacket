@@ -15,17 +15,17 @@
   background-image: url(images/shield.svg);
 }
 
-/* Hacker Styles */
+/* Daemon Styles */
 
-.hacker-color {
+.daemon-color {
   background-color: #ce3d20;
 }
 
-.hacker-area {
+.daemon-area {
   background-color: #3c1912;
   background-image: url(images/chip.svg);
 }
 
-.hacker-card .power {
+.daemon-card .power {
   background-image: url(images/skull.svg);
 }
