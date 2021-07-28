@@ -281,6 +281,10 @@ function playTurn() {
   }, 500);
 }
 
+function getImgSrcFromPowerString(powerString){
+  return '/images/' + powerString + '.jpg';
+}
+
 function revealCards(){
 
   if(scenarios.length == 0){
@@ -322,6 +326,8 @@ function revealCards(){
     // Display the payer card details
     if(card.classList.contains("player-card")) {
       card.querySelector(".text").innerHTML = playerCards[cardIndexes[j]].description;
+      var imgSrc = getImgSrcFromPowerString(playerCards[cardIndexes[j]].power);
+      card.querySelector(".image").src = imgSrc;
       card.querySelector(".power").innerHTML = playerCards[cardIndexes[j]].power;
       j++;
     }
@@ -338,5 +344,7 @@ function revealCards(){
 
   // Display the daemon card
   daemonCardEl.querySelector(".text").innerHTML = daemonCard.description;
+  var imgSrc = getImgSrcFromPowerString(daemonCard.power);
+  daemonCardEl.querySelector(".image").src = imgSrc;
   daemonCardEl.querySelector(".power").innerHTML = daemonCard.power;
 }

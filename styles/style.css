@@ -425,3 +425,8 @@ button[disabled=true] {
   }
 }
 
+img {
+  width: 10vw;
+  height: 20vh;
+  object-fit: contain;
+}
