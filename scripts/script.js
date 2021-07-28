@@ -3,8 +3,9 @@ var playerLife = 5;
 var daemonLife = 5;
 
 // Message when the game is over
-var daemonWinnerMessage = "Game over: You have fallen...";
+var daemonWinnerMessage = "You have fallen...";
 var playerWinnerMessage = "You have won!";
+var outOfCardsTriggered = false;
 
 
 // Game code starts here
@@ -69,6 +70,54 @@ function revealDaemonPower(){
   daemonCard.classList.add("reveal-power");
 }
 
+function parsePower(powerString){
+
+  var suit = parseSuit(powerString);
+  var rank = parseRank(powerString, suit);
+  return { suit: suit, rank: rank};
+}
+
+function parsePowerDifference(playerPower, daemonPower) {
+  
+  // if suit is same, rootmost (lower card) wins
+  if(playerPower.suit === daemonPower.suit){
+    return daemonPower.rank - playerPower.rank;
+  }
+
+  // else: suits differ, highest card wins 
+
+  return playerPower.rank - daemonPower.rank;
+}
+
+function parseSuit(powerString) {
+  
+  if(powerString.endsWith("D")){
+    console.log("disks found");
+    return "D";
+  }
+
+  if(powerString.endsWith("C")){
+    console.log("cups found");
+    return "C";
+  }
+
+  if(powerString.endsWith("S")){
+    console.log("swords found");
+    return "S";
+  } 
+
+  if(powerString.endsWith("W")){
+    console.log("wands found");
+    return "W";
+  }
+
+  return "ERROR PARSING SUIT";
+}
+
+function parseRank(powerString, suit) {
+  return parseInt(powerString.replace(suit, ''));
+}
+
 function compareCards(){
   var playerCard = document.querySelector(".played-card");
   var playerPowerEl = playerCard.querySelector(".power");
@@ -76,10 +125,10 @@ function compareCards(){
   var daemonCard = document.querySelector(".daemon-card");
   var daemonPowerEl = daemonCard.querySelector(".power");
 
-  var playerPower = parseInt(playerPowerEl.innerHTML);
-  var daemonPower = parseInt(daemonPowerEl.innerHTML);
+  var playerPower = parsePower(playerPowerEl.innerHTML);
+  var daemonPower = parsePower(daemonPowerEl.innerHTML);
 
-  var powerDifference = playerPower - daemonPower;
+  var powerDifference = parsePowerDifference(playerPower, daemonPower);
 
   if (powerDifference < 0) {
     // Player Loses
@@ -111,6 +160,12 @@ function compareCards(){
   document.querySelector("button.next-turn").removeAttribute("disabled");
 }
 
+function outOfCards() {
+  
+  outOfCardsTriggered = true;
+  gameOver("Daemon");
+}
+
 // Shows the winner message
 function gameOver(winner) {
   document.querySelector(".game-board").classList.add("game-over");
@@ -119,6 +174,9 @@ function gameOver(winner) {
   document.querySelector(".winner-section").classList.remove("daemon-color");
 
   if(winner == "Daemon") {
+    if(outOfCardsTriggered){
+      daemonWinnerMessage = "Out of Cards! " + daemonWinnerMessage;
+    }
     document.querySelector(".winner-message").innerHTML = daemonWinnerMessage;
     document.querySelector(".winner-section").classList.add("daemon-color");
   } else {
@@ -225,6 +283,11 @@ function playTurn() {
 
 function revealCards(){
 
+  if(scenarios.length == 0){
+    
+    outOfCards();
+    return;
+  }
 
   var j = 0;
   var cardIndexes = shuffleArray([0, 1, 2]);

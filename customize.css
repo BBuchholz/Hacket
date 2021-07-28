@@ -12,7 +12,7 @@
 }
 
 .player-card .power {
-  background-image: url(images/shield.svg);
+  background-image: url(images/skull.svg);
 }
 
 /* Daemon Styles */
@@ -27,5 +27,5 @@
 }
 
 .daemon-card .power {
-  background-image: url(images/skull.svg);
+  background-image: url(images/shield.svg);
 }
