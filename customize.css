@@ -3,11 +3,11 @@
 /* Player Styles */
 
 .player-color {
-  background-color: #2a79d0;
+  background-color: #ce3d20;
 }
 
 .player-area {
-  background-color: #0d3158;
+  background-color: #3c1912;
   background-image: url(images/chip.svg);
 }
 
@@ -18,11 +18,11 @@
 /* Daemon Styles */
 
 .daemon-color {
-  background-color: #ce3d20;
+  background-color: #2a79d0;
 }
 
 .daemon-area {
-  background-color: #3c1912;
+  background-color: #0d3158;
   background-image: url(images/chip.svg);
 }
 
