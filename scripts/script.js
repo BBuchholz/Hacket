@@ -77,16 +77,25 @@ function parsePower(powerString){
   return { suit: suit, rank: rank};
 }
 
-function parsePowerDifference(playerPower, daemonPower) {
+function parseResult(playerPower, daemonPower) {
+
+  // NB: heatDelta and moistureDelta for future usage
+  var playResult = {
+    powerDifference: 0,
+    heatDelta: 0,
+    moistureDelta: 0,
+  }
   
   // if suit is same, rootmost (lower card) wins
   if(playerPower.suit === daemonPower.suit){
-    return daemonPower.rank - playerPower.rank;
+    playResult.powerDifference = daemonPower.rank - playerPower.rank;
   }
 
   // else: suits differ, highest card wins 
 
-  return playerPower.rank - daemonPower.rank;
+  playResult.powerDifference = playerPower.rank - daemonPower.rank;
+
+  return playResult;
 }
 
 function parseSuit(powerString) {
@@ -128,17 +137,17 @@ function compareCards(){
   var playerPower = parsePower(playerPowerEl.innerHTML);
   var daemonPower = parsePower(daemonPowerEl.innerHTML);
 
-  var powerDifference = parsePowerDifference(playerPower, daemonPower);
+  var playResult = parseResult(playerPower, daemonPower);
 
-  if (powerDifference < 0) {
+  if (playResult.powerDifference < 0) {
     // Player Loses
-    playerLife = playerLife + powerDifference;
+    playerLife = playerLife + playResult.powerDifference;
     daemonCard.classList.add("better-card");
     playerCard.classList.add("worse-card");
     document.querySelector(".player-stats .thumbnail").classList.add("ouch");
-  } else if (powerDifference > 0) {
+  } else if (playResult.powerDifference > 0) {
     // Player Wins
-    daemonLife = daemonLife - powerDifference;
+    daemonLife = daemonLife - playResult.powerDifference;
     playerCard.classList.add("better-card");
     daemonCard.classList.add("worse-card");
     document.querySelector(".daemon-stats .thumbnail").classList.add("ouch");
