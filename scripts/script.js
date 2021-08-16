@@ -77,6 +77,56 @@ function parsePower(powerString){
   return { suit: suit, rank: rank};
 }
 
+function getHDeltaFromSuit(suit) {
+    
+      switch (suit) {      
+
+        case 'D':
+          // console.log("disks found");
+          return -1;
+       
+        case 'C':
+          // console.log("cups found");
+          return -1;
+       
+        case 'S':
+          // console.log("swords found");
+          return 1;
+        
+        case 'W':
+          // console.log("wands found");
+          return 1;
+        
+        default:
+          return 0;
+      }
+    }
+
+    function getMDeltaFromSuit(suit) {
+      
+      switch (suit) {      
+
+        case 'D':
+          // console.log("disks found");
+          return -1;
+       
+        case 'C':
+          // console.log("cups found");
+          return 1;
+       
+        case 'S':
+          // console.log("swords found");
+          return 1;
+        
+        case 'W':
+          // console.log("wands found");
+          return -1;
+        
+        default:
+          return 0;
+      }
+    }
+
 function parseResult(playerPower, daemonPower) {
 
   // NB: heatDelta and moistureDelta for future usage
@@ -85,15 +135,28 @@ function parseResult(playerPower, daemonPower) {
     heatDelta: 0,
     moistureDelta: 0,
   }
+
+  var trumpSuit = '?';
   
-  // if suit is same, rootmost (lower card) wins
   if(playerPower.suit === daemonPower.suit){
+  
+    // if suit is same, rootmost (lower card) wins
+    
     playResult.powerDifference = daemonPower.rank - playerPower.rank;
+    trumpSuit = (daemonPower.rank < playerPower.rank) ? daemonPower.suit : playerPower.suit; 
+  
+  } else {
+
+    // suits differ, highest card wins 
+
+    playResult.powerDifference = playerPower.rank - daemonPower.rank;
+    trumpSuit = (daemonPower.rank > playerPower.rank) ? daemonPower.suit : playerPower.suit;
   }
 
-  // else: suits differ, highest card wins 
+  playResult.heatDelta = getHDeltaFromSuit(trumpSuit);
+  playResult.moistureDelta = getMDeltaFromSuit(trumpSuit);
 
-  playResult.powerDifference = playerPower.rank - daemonPower.rank;
+  console.log(playResult);
 
   return playResult;
 }
@@ -141,13 +204,27 @@ function compareCards(){
 
   if (playResult.powerDifference < 0) {
     // Player Loses
-    playerLife = playerLife + playResult.powerDifference;
+    
+    var pDiff = Math.abs(playResult.powerDifference);
+    var mDelta = pDiff * playResult.moistureDelta;
+    var hDelta = pDiff * playResult.heatDelta;
+    daemonLife = daemonLife + mDelta;
+    playerLife = playerLife + hDelta;
+    
+    //playerLife = playerLife + playResult.powerDifference;
     daemonCard.classList.add("better-card");
     playerCard.classList.add("worse-card");
     document.querySelector(".player-stats .thumbnail").classList.add("ouch");
   } else if (playResult.powerDifference > 0) {
     // Player Wins
-    daemonLife = daemonLife - playResult.powerDifference;
+
+    var pDiff = Math.abs(playResult.powerDifference);
+    var mDelta = pDiff * playResult.moistureDelta;
+    var hDelta = pDiff * playResult.heatDelta;
+    daemonLife = daemonLife + mDelta;
+    playerLife = playerLife + hDelta;
+
+    //daemonLife = daemonLife - playResult.powerDifference;
     playerCard.classList.add("better-card");
     daemonCard.classList.add("worse-card");
     document.querySelector(".daemon-stats .thumbnail").classList.add("ouch");
