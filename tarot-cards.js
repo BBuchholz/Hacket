@@ -42,5 +42,45 @@ var scenarios = [
         power : "2S",
       }
     ]
+  },
+  {
+    daemonCard : {
+      description : "Nine of Disks",
+      power : "9D",
+    },
+    playerCards : [
+      {
+        description : "Six of Wands",
+        power : "6W",
+      },
+      {
+        description : "Eight of Cups",
+        power : "8C",
+      },
+      {
+        description : "Four of Swords",
+        power : "4S",
+      }
+    ]
+  },
+  {
+    daemonCard : {
+      description : "Five of Cups",
+      power : "5C",
+    },
+    playerCards : [
+      {
+        description : "Eight of Disks",
+        power : "8D",
+      },
+      {
+        description : "Three of Swords",
+        power : "3S",
+      },
+      {
+        description : "Two of Disks",
+        power : "2D",
+      }
+    ]
   }
 ];

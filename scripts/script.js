@@ -362,12 +362,10 @@ function restartGame(){
     cards[i].style.display = "none";
   }
 
-  heatIndex = heatIndexStart;
-  moistureIndex = moistureIndexStart;
-
   roundFinished = true;
   cardSelected = false;
 
+  resetAristoleanIndexes();
   updateScores();
 }
 
@@ -422,6 +420,9 @@ function playTurn() {
   // Hides the "next turn" button, will show again when turn is over
   document.querySelector(".next-turn").setAttribute("disabled", "true");
 
+  resetAristoleanIndexes();
+  updateScores();
+
   for(var i = 0; i < allCardElements.length; i++) {
     var card = allCardElements[i];
     card.classList.remove("showCard");
@@ -430,6 +431,13 @@ function playTurn() {
   setTimeout(function(){
     revealCards();
   }, 500);
+}
+
+
+function resetAristoleanIndexes(){
+
+  heatIndex = heatIndexStart;
+  moistureIndex = moistureIndexStart;
 }
 
 function getImgSrcFromPowerString(powerString){
