@@ -1,16 +1,20 @@
 // Set starting life totals here
-var playerLife = 5;
-var daemonLife = 5;
+var heatIndex = 0;
+var moistureIndex = 0;
 
 // Message when the game is over
 var daemonWinnerMessage = "You have fallen...";
 var playerWinnerMessage = "You have won!";
+var fireCaptureMessage = "fire captured!";
+var airCaptureMessage = "air captured!";
+var waterCaptureMessage = "water captured!";
+var earthCaptureMessage = "earth captured!";
 var outOfCardsTriggered = false;
 
 
 // Game code starts here
-var playerStartLife = parseInt(playerLife);
-var daemonStartLife = parseInt(daemonLife);
+var heatIndexStart = parseInt(heatIndex);
+var moistureIndexStart = parseInt(moistureIndex);
 
 var roundFinished = false;
 var cardSelected = false;
@@ -208,10 +212,10 @@ function compareCards(){
     var pDiff = Math.abs(playResult.powerDifference);
     var mDelta = pDiff * playResult.moistureDelta;
     var hDelta = pDiff * playResult.heatDelta;
-    daemonLife = daemonLife + mDelta;
-    playerLife = playerLife + hDelta;
+    moistureIndex = moistureIndex + mDelta;
+    heatIndex = heatIndex + hDelta;
     
-    //playerLife = playerLife + playResult.powerDifference;
+    //heatIndex = heatIndex + playResult.powerDifference;
     daemonCard.classList.add("better-card");
     playerCard.classList.add("worse-card");
     document.querySelector(".player-stats .thumbnail").classList.add("ouch");
@@ -221,10 +225,10 @@ function compareCards(){
     var pDiff = Math.abs(playResult.powerDifference);
     var mDelta = pDiff * playResult.moistureDelta;
     var hDelta = pDiff * playResult.heatDelta;
-    daemonLife = daemonLife + mDelta;
-    playerLife = playerLife + hDelta;
+    moistureIndex = moistureIndex + mDelta;
+    heatIndex = heatIndex + hDelta;
 
-    //daemonLife = daemonLife - playResult.powerDifference;
+    //moistureIndex = moistureIndex - playResult.powerDifference;
     playerCard.classList.add("better-card");
     daemonCard.classList.add("worse-card");
     document.querySelector(".daemon-stats .thumbnail").classList.add("ouch");
@@ -235,15 +239,35 @@ function compareCards(){
 
   updateScores();
 
-  if(playerLife <= 0) {
-    gameOver("Daemon");
-  } else if (daemonLife <= 0){
-    gameOver("Player")
-  }
+  processCaptures();
 
   roundFinished = true;
 
   document.querySelector("button.next-turn").removeAttribute("disabled");
+}
+
+function processCaptures() {
+
+  if(outOfCardsTriggered){
+    gameOver('Daemon');
+    return;
+  }
+
+  if(heatIndex > 0 && moistureIndex > 0){
+    capture('Air');
+  }
+
+  if(heatIndex < 0 && moistureIndex < 0){
+    capture('Earth');
+  }
+
+  if(heatIndex > 0 && moistureIndex < 0){
+    capture('Fire');
+  }
+
+  if(heatIndex < 0 && moistureIndex > 0){
+    capture('Water');
+  }
 }
 
 function outOfCards() {
@@ -258,16 +282,57 @@ function gameOver(winner) {
   document.querySelector(".winner-section").style.display = "flex";
   document.querySelector(".winner-section").classList.remove("player-color");
   document.querySelector(".winner-section").classList.remove("daemon-color");
+  
+  switch (winner) {
 
-  if(winner == "Daemon") {
-    if(outOfCardsTriggered){
-      daemonWinnerMessage = "Out of Cards! " + daemonWinnerMessage;
-    }
-    document.querySelector(".winner-message").innerHTML = daemonWinnerMessage;
-    document.querySelector(".winner-section").classList.add("daemon-color");
-  } else {
-    document.querySelector(".winner-message").innerHTML = playerWinnerMessage;
-    document.querySelector(".winner-section").classList.add("player-color");
+    case 'Daemon':
+      if(outOfCardsTriggered){
+        daemonWinnerMessage = 'Out of cards! ' + daemonWinnerMessage;
+      }
+      document.querySelector(".winner-message").innerHTML = daemonWinnerMessage;
+      document.querySelector(".winner-section").classList.add("daemon-color");  
+      break;
+    
+    default:
+
+      document.querySelector(".winner-message").innerHTML = playerWinnerMessage;
+      document.querySelector(".winner-section").classList.add("player-color");  
+      break;
+  }
+}
+
+function capture(element) {
+  
+  switch (element) {
+
+    case 'Earth':
+    
+      document.querySelector(".next-turn").innerHTML = earthCaptureMessage;
+      document.querySelector(".next-turn").classList.add("earth-color");  
+      break;
+    
+    case 'Fire':
+    
+      document.querySelector(".next-turn").innerHTML = fireCaptureMessage;
+      document.querySelector(".next-turn").classList.add("fire-color");  
+      break;
+    
+    case 'Air':
+    
+      document.querySelector(".next-turn").innerHTML = airCaptureMessage;
+      document.querySelector(".next-turn").classList.add("air-color");  
+      break;
+    
+    case 'Water':
+    
+      document.querySelector(".next-turn").innerHTML = waterCaptureMessage;
+      document.querySelector(".next-turn").classList.add("water-color");  
+      break;
+    
+    default:
+
+      // do nothing
+      break;
   }
 }
 
@@ -297,8 +362,8 @@ function restartGame(){
     cards[i].style.display = "none";
   }
 
-  playerLife = playerStartLife;
-  daemonLife = daemonStartLife;
+  heatIndex = heatIndexStart;
+  moistureIndex = moistureIndexStart;
 
   roundFinished = true;
   cardSelected = false;
@@ -310,18 +375,18 @@ function restartGame(){
 function updateScores(){
 
   // Update life totals for each player
-  document.querySelector(".player-stats .life-total").innerHTML = playerLife;
-  document.querySelector(".daemon-stats .life-total").innerHTML = daemonLife;
+  document.querySelector(".player-stats .life-total").innerHTML = heatIndex;
+  document.querySelector(".daemon-stats .life-total").innerHTML = moistureIndex;
 
   // Update the player lifebar
-  var playerPercent = playerLife / playerStartLife * 100;
+  var playerPercent = heatIndex / heatIndexStart * 100;
   if (playerPercent < 0) {
     playerPercent = 0;
   }
   document.querySelector(".player-stats .life-left").style.height =  playerPercent + "%";
 
   // Update the daemon lifebar
-  var daemonPercent = daemonLife / daemonStartLife * 100
+  var daemonPercent = moistureIndex / moistureIndexStart * 100
   if (daemonPercent < 0) {
     daemonPercent = 0;
   }
