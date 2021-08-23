@@ -301,31 +301,35 @@ function gameOver(winner) {
   }
 }
 
+function calculateCaptureTotals(){
+  return "0E 0W 0A 0F";
+}
+
 function capture(element) {
   
   switch (element) {
 
     case 'Earth':
     
-      document.querySelector(".next-turn").innerHTML = earthCaptureMessage;
+      document.querySelector(".next-turn").innerHTML = earthCaptureMessage + " " + calculateCaptureTotals();
       document.querySelector(".next-turn").classList.add("earth-color");  
       break;
     
     case 'Fire':
     
-      document.querySelector(".next-turn").innerHTML = fireCaptureMessage;
+      document.querySelector(".next-turn").innerHTML = fireCaptureMessage + " " + calculateCaptureTotals();
       document.querySelector(".next-turn").classList.add("fire-color");  
       break;
     
     case 'Air':
     
-      document.querySelector(".next-turn").innerHTML = airCaptureMessage;
+      document.querySelector(".next-turn").innerHTML = airCaptureMessage + " " + calculateCaptureTotals();
       document.querySelector(".next-turn").classList.add("air-color");  
       break;
     
     case 'Water':
     
-      document.querySelector(".next-turn").innerHTML = waterCaptureMessage;
+      document.querySelector(".next-turn").innerHTML = waterCaptureMessage + " " + calculateCaptureTotals();
       document.querySelector(".next-turn").classList.add("water-color");  
       break;
     

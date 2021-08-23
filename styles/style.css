@@ -190,6 +190,30 @@ button:active {
   top: 1px;
 }
 
+.next-turn-section {
+  display: none;
+  position: fixed;
+  padding: 15px 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  animation: winnerAppear .4s ease-out;
+}
+
+.next-turn-section button {
+  margin-left: 15px;
+}
+
+.next-turn-message {
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
+  position: relative;
+  top: 1px;
+}
+
 @keyframes winnerAppear {
   0% {
     transform: translateY(150px);
