@@ -1,14 +1,23 @@
 // Set starting life totals here
 var heatIndex = 0;
 var moistureIndex = 0;
+var fireCaptures = 0;
+var waterCaptures = 0;
+var airCaptures = 0;
+var earthCaptures = 0;
+var fireCaptureSequence = "9W/3C, 8W/5D";
+var waterCaptureSequence = "7C/4W, 9C/3S";
+var airCaptureSequence = "6S/5D, 7S/4C";
+var earthCaptureSequence = "5D/2S, 4D/2W";
+
 
 // Message when the game is over
 var daemonWinnerMessage = "You have fallen...";
 var playerWinnerMessage = "You have won!";
-var fireCaptureMessage = "fire captured!";
-var airCaptureMessage = "air captured!";
-var waterCaptureMessage = "water captured!";
-var earthCaptureMessage = "earth captured!";
+var fireCaptureMessage = "fire quadrant";
+var airCaptureMessage = "air quadrant";
+var waterCaptureMessage = "water quadrant";
+var earthCaptureMessage = "earth quadrant";
 var outOfCardsTriggered = false;
 
 
@@ -301,8 +310,31 @@ function gameOver(winner) {
   }
 }
 
-function calculateCaptureTotals(){
-  return "0E 0W 0A 0F";
+function calculateCaptureTotals(includeSequences){
+
+  let outputMessage = "";
+
+  if(includeSequences){
+
+    outputMessage += earthCaptures + "E [" + earthCaptureSequence + "]\n";
+    outputMessage += waterCaptures + "W  [" + waterCaptureSequence + "]\n";
+    outputMessage += airCaptures + "A  [" + airCaptureSequence + "]\n";
+    outputMessage += fireCaptures + "F [" + fireCaptureSequence + "]\n";
+
+  } else {
+
+    outputMessage += earthCaptures + "E ";
+    outputMessage += waterCaptures + "W  ";
+    outputMessage += airCaptures + "A  ";
+    outputMessage += fireCaptures + "F ";
+    
+  }
+
+  return outputMessage;
+}
+
+function showStats() {
+  alert(calculateCaptureTotals(true));
 }
 
 function capture(element) {
@@ -310,26 +342,42 @@ function capture(element) {
   switch (element) {
 
     case 'Earth':
-    
-      document.querySelector(".next-turn").innerHTML = earthCaptureMessage + " " + calculateCaptureTotals();
+
+      earthCaptures += 1;
+      
+      document.querySelector(".h-index-name").innerHTML = "COLD";
+      document.querySelector(".m-index-name").innerHTML = "DRY";
+      document.querySelector(".next-turn").innerHTML = earthCaptureMessage + " " + calculateCaptureTotals(false);
       document.querySelector(".next-turn").classList.add("earth-color");  
       break;
     
     case 'Fire':
     
-      document.querySelector(".next-turn").innerHTML = fireCaptureMessage + " " + calculateCaptureTotals();
+      fireCaptures += 1;
+
+      document.querySelector(".h-index-name").innerHTML = "HOT";
+      document.querySelector(".m-index-name").innerHTML = "DRY";
+      document.querySelector(".next-turn").innerHTML = fireCaptureMessage + " " + calculateCaptureTotals(false);
       document.querySelector(".next-turn").classList.add("fire-color");  
       break;
     
     case 'Air':
     
-      document.querySelector(".next-turn").innerHTML = airCaptureMessage + " " + calculateCaptureTotals();
+      airCaptures += 1;
+
+      document.querySelector(".h-index-name").innerHTML = "HOT";
+      document.querySelector(".m-index-name").innerHTML = "WET";
+      document.querySelector(".next-turn").innerHTML = airCaptureMessage + " " + calculateCaptureTotals(false);
       document.querySelector(".next-turn").classList.add("air-color");  
       break;
     
     case 'Water':
     
-      document.querySelector(".next-turn").innerHTML = waterCaptureMessage + " " + calculateCaptureTotals();
+      waterCaptures += 1;
+
+      document.querySelector(".h-index-name").innerHTML = "COLD";
+      document.querySelector(".m-index-name").innerHTML = "WET";
+      document.querySelector(".next-turn").innerHTML = waterCaptureMessage + " " + calculateCaptureTotals(false);
       document.querySelector(".next-turn").classList.add("water-color");  
       break;
     
@@ -424,7 +472,7 @@ function playTurn() {
   // Hides the "next turn" button, will show again when turn is over
   document.querySelector(".next-turn").setAttribute("disabled", "true");
 
-  resetAristoleanIndexes();
+  //resetAristoleanIndexes();
   updateScores();
 
   for(var i = 0; i < allCardElements.length; i++) {

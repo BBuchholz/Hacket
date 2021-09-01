@@ -21,14 +21,14 @@
           <strong>EMPYREAN</strong> <br/> Choose your response to the play of the Heavenly City...
         </h1>
 
-        <div class="stats daemon-stats">
+        <div class="stats daemon-stats" onClick="showStats()">
           <div class="life-bar">
             <div class="life-left daemon-color"></div>
           </div>
           <div class="life-total"></div>
           <!-- Change the name and emoji here -->
           <div class="thumbnail">💦</div>
-          <div class="name">MI</div>
+          <div class="name m-index-name">MI</div>
         </div>
         
         <div class="card daemon-card daemon-color">
@@ -41,14 +41,14 @@
 
       <div class="player-area">
 
-        <div class="stats player-stats">
+        <div class="stats player-stats" onClick="showStats()">
           <div class="life-bar">
             <div class="life-left player-color"></div>
           </div>
           <div class="life-total"></div>
           <!-- Change the name and emoji here -->
           <div class="thumbnail">🌡</div>
-          <div class="name">HI</div>
+          <div class="name h-index-name">HI</div>
         </div>
 
         <div class="card player-card player-color">
@@ -80,6 +80,7 @@
       <div>
         <span class="winner-message">You have fallen...</span>
         <button class="restart" onClick="location.reload()">Play Again</button>
+        <button onClick="showStats()">Show Stats</button>
       </div>
     </div>
 
