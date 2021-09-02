@@ -30,16 +30,16 @@ var scenarios = [
     },
     playerCards : [
       {
-        description : "Five of Wands",
-        power : "5W",
+        description : "Five of Swords",
+        power : "5S",
       },
       {
         description : "Three of Disks",
         power : "3D",
       },
       {
-        description : "Two of Swords",
-        power : "2S",
+        description : "Two of Wands",
+        power : "2W",
       }
     ]
   },
