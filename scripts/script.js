@@ -1,3 +1,6 @@
+const myriad = require('@entomdt/myriad-core');
+const magisterLudi = myriad.KnechtController();
+
 // Set starting life totals here
 var heatIndex = 0;
 var moistureIndex = 0;
