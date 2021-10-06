@@ -10,10 +10,13 @@
     "type": "git",
     "url": "git+https://github.com/BBuchholz/vanilla-sky.git"
   },
-  "author": "",
+  "author": "pandaemonic",
   "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/BBuchholz/vanilla-sky/issues"
   },
-  "homepage": "https://github.com/BBuchholz/vanilla-sky#readme"
+  "homepage": "https://github.com/BBuchholz/vanilla-sky#readme",
+  "dependencies": {
+    "@entomdt/myriad-core": "^0.2.1"
+  }
 }
