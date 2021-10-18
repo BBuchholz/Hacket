@@ -5,10 +5,13 @@ var fireCaptures = 0;
 var waterCaptures = 0;
 var airCaptures = 0;
 var earthCaptures = 0;
-var fireCaptureSequence = "9W/3C, 8W/5D";
-var waterCaptureSequence = "7C/4W, 9C/3S";
-var airCaptureSequence = "6S/5D, 7S/4C";
-var earthCaptureSequence = "5D/2S, 4D/2W";
+var universalCaptures = 0;
+var fireCaptureSequence = "";
+var waterCaptureSequence = "";
+var airCaptureSequence = "";
+var earthCaptureSequence = "";
+var universalCaptureSequence = '';
+var lastCapturedKey = '';
 
 
 // Message when the game is over
@@ -140,6 +143,10 @@ function getHDeltaFromSuit(suit) {
       }
     }
 
+function toCaptureString(powerObjectWinning, powerObjectLosing) {
+  return powerObjectWinning.rank + powerObjectWinning.suit + "/" + powerObjectLosing.rank + powerObjectLosing.suit;
+}
+
 function parseResult(playerPower, daemonPower) {
 
   // NB: heatDelta and moistureDelta for future usage
@@ -157,13 +164,16 @@ function parseResult(playerPower, daemonPower) {
     
     playResult.powerDifference = daemonPower.rank - playerPower.rank;
     trumpSuit = (daemonPower.rank < playerPower.rank) ? daemonPower.suit : playerPower.suit; 
-  
+    lastCapturedKey = (daemonPower.rank < playerPower.rank) ? toCaptureString(daemonPower, playerPower) : toCaptureString(playerPower, daemonPower);
+
   } else {
 
     // suits differ, highest card wins 
 
     playResult.powerDifference = playerPower.rank - daemonPower.rank;
     trumpSuit = (daemonPower.rank > playerPower.rank) ? daemonPower.suit : playerPower.suit;
+    lastCapturedKey = (daemonPower.rank > playerPower.rank) ? toCaptureString(daemonPower, playerPower) : toCaptureString(playerPower, daemonPower);
+  
   }
 
   playResult.heatDelta = getHDeltaFromSuit(trumpSuit);
@@ -264,18 +274,35 @@ function processCaptures() {
 
   if(heatIndex > 0 && moistureIndex > 0){
     capture('Air');
+    if(airCaptureSequence.length > 0) { airCaptureSequence += ", "; };
+    airCaptureSequence += lastCapturedKey;
+    if(universalCaptureSequence.length > 0) { universalCaptureSequence += ", "; };
+    universalCaptureSequence += lastCapturedKey;
+
   }
 
   if(heatIndex < 0 && moistureIndex < 0){
     capture('Earth');
+    if(earthCaptureSequence.length > 0) { earthCaptureSequence += ", "; }
+    earthCaptureSequence += lastCapturedKey;
+    if(universalCaptureSequence.length > 0) { universalCaptureSequence += ", "; };
+    universalCaptureSequence += lastCapturedKey;
   }
 
   if(heatIndex > 0 && moistureIndex < 0){
     capture('Fire');
+    if(fireCaptureSequence.length > 0) { fireCaptureSequence += ", "; }
+    fireCaptureSequence += lastCapturedKey;
+    if(universalCaptureSequence.length > 0) { universalCaptureSequence += ", "; };
+    universalCaptureSequence += lastCapturedKey;
   }
 
   if(heatIndex < 0 && moistureIndex > 0){
     capture('Water');
+    if(waterCaptureSequence.length > 0) { waterCaptureSequence += ", "; }
+    waterCaptureSequence += lastCapturedKey;
+    if(universalCaptureSequence.length > 0) { universalCaptureSequence += ", "; };
+    universalCaptureSequence += lastCapturedKey;
   }
 }
 
@@ -320,6 +347,7 @@ function calculateCaptureTotals(includeSequences){
     outputMessage += waterCaptures + "W  [" + waterCaptureSequence + "]\n";
     outputMessage += airCaptures + "A  [" + airCaptureSequence + "]\n";
     outputMessage += fireCaptures + "F [" + fireCaptureSequence + "]\n";
+    outputMessage += universalCaptures + "G [" + universalCaptureSequence + "]\n";
 
   } else {
 
@@ -344,6 +372,7 @@ function capture(element) {
     case 'Earth':
 
       earthCaptures += 1;
+      universalCaptures += 1;
       
       document.querySelector(".h-index-name").innerHTML = "COLD";
       document.querySelector(".m-index-name").innerHTML = "DRY";
@@ -354,6 +383,7 @@ function capture(element) {
     case 'Fire':
     
       fireCaptures += 1;
+      universalCaptures += 1;
 
       document.querySelector(".h-index-name").innerHTML = "HOT";
       document.querySelector(".m-index-name").innerHTML = "DRY";
@@ -364,6 +394,7 @@ function capture(element) {
     case 'Air':
     
       airCaptures += 1;
+      universalCaptures += 1;
 
       document.querySelector(".h-index-name").innerHTML = "HOT";
       document.querySelector(".m-index-name").innerHTML = "WET";
@@ -374,6 +405,7 @@ function capture(element) {
     case 'Water':
     
       waterCaptures += 1;
+      universalCaptures += 1;
 
       document.querySelector(".h-index-name").innerHTML = "COLD";
       document.querySelector(".m-index-name").innerHTML = "WET";
