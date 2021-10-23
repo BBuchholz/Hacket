@@ -12,6 +12,7 @@ var airCaptureSequence = "";
 var earthCaptureSequence = "";
 var universalCaptureSequence = '';
 var lastCapturedKey = '';
+var currentElementalQuadrant = '';
 
 
 // Message when the game is over
@@ -44,6 +45,25 @@ for(var i = 0; i < allCardElements.length; i++) {
     card.addEventListener("click",function(e){
       cardClicked(this);
     });
+  }
+}
+
+// changes background color and image symbol when quadrant changes
+function changeElementalQuadrant(elementName){
+
+  if(elementName !== currentElementalQuadrant){
+
+    currentElementalQuadrant = elementName;
+
+    console.log("elemental quadrant changed to " + currentElementalQuadrant);
+
+    // FROM BRANCH DOC:
+    // use a function to change quadrant, taking an element name, switch through all four to remove class list for each and then add the new one and change background image
+    console.log('classList updated here');
+    // change chip background image to whichever elemental sign we are in at the moment
+    console.log('background image changed here');
+    // change color of play areas with capture, see main ecosystem doc
+    console.log('play areas changed here');
   }
 }
 
@@ -377,7 +397,9 @@ function capture(element) {
       document.querySelector(".h-index-name").innerHTML = "COLD";
       document.querySelector(".m-index-name").innerHTML = "DRY";
       document.querySelector(".next-turn").innerHTML = earthCaptureMessage + " " + calculateCaptureTotals(false);
-      document.querySelector(".next-turn").classList.add("earth-color");  
+      document.querySelector(".next-turn").classList.add("earth-color");
+      changeElementalQuadrant('Earth');
+
       break;
     
     case 'Fire':
@@ -389,6 +411,8 @@ function capture(element) {
       document.querySelector(".m-index-name").innerHTML = "DRY";
       document.querySelector(".next-turn").innerHTML = fireCaptureMessage + " " + calculateCaptureTotals(false);
       document.querySelector(".next-turn").classList.add("fire-color");  
+      changeElementalQuadrant('Fire');
+      
       break;
     
     case 'Air':
@@ -400,6 +424,8 @@ function capture(element) {
       document.querySelector(".m-index-name").innerHTML = "WET";
       document.querySelector(".next-turn").innerHTML = airCaptureMessage + " " + calculateCaptureTotals(false);
       document.querySelector(".next-turn").classList.add("air-color");  
+      changeElementalQuadrant('Air');
+      
       break;
     
     case 'Water':
@@ -411,6 +437,8 @@ function capture(element) {
       document.querySelector(".m-index-name").innerHTML = "WET";
       document.querySelector(".next-turn").innerHTML = waterCaptureMessage + " " + calculateCaptureTotals(false);
       document.querySelector(".next-turn").classList.add("water-color");  
+      changeElementalQuadrant('Water');
+      
       break;
     
     default:
